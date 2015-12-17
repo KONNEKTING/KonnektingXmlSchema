@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
  */
 public class KonnektingXmlService {
 
-    private static <T> T unmarshal(String xsdSchema, String xmlDatei, Class<T> clss)
+    private static <T> T unmarshal(String xmlDatei, Class<T> clss)
         throws JAXBException, SAXException {
         // Schema und JAXBContext sind multithreadingsicher ("thread safe"):
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -47,7 +47,7 @@ public class KonnektingXmlService {
 
     }
 
-    private static void marshal(String xsdSchema, String xmlDatei, Object jaxbElement)
+    private static void marshal(String xmlDatei, Object jaxbElement)
         throws JAXBException, SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(KonnektingXmlService.class.getResource("/META-INF/xsd/Konnekting.xsd"));
