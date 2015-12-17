@@ -12,6 +12,16 @@
     </properties>
     <name>KONNEKTING XML Schema</name>
     <build>
+        <resources>
+            <resource>
+                <targetPath>META-INF/xsd</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/main/xsd</directory>
+                <includes>
+                    <include>*.xsd</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- Plugin required to build java classes from XSD using XJC -->
             <plugin>
