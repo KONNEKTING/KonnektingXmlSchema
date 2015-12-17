@@ -27,7 +27,7 @@
                 <xsd:element name="Device" type="tns:Device"></xsd:element>
                 <xsd:element name="Configuration" type="tns:Configuration"/>
             </xsd:sequence>
-            <xsd:attribute name="version" type="xsd:string"/>
+            <xsd:attribute name="version" type="xsd:unsignedByte" use="required"/>
         </xsd:complexType>
     </xsd:element>
     <xsd:complexType name="CommObject">
@@ -55,14 +55,14 @@
                     <xsd:simpleContent>
                         <xsd:extension base="xsd:string">
                             <xsd:attribute name="Type" type="xsd:string"/>
-                            <xsd:attribute name="Default" type="xsd:string"/>
+                            <xsd:attribute name="Default" type="xsd:hexBinary" use="required" default="00"/>
                             <xsd:attribute name="Options" type="xsd:string"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="Id" type="xsd:string"/>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterGroup">
         <xsd:sequence>
@@ -95,14 +95,14 @@
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="CommObjectConfiguration">
-        <xsd:attribute name="Id" type="xsd:string"/>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="GroupAddress" type="xsd:string"/>
         <xsd:attribute name="Description" type="xsd:string"/>
         <xsd:attribute name="Flags" type="xsd:unsignedByte"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfiguration">
-        <xsd:attribute name="Id" type="xsd:string"/>
-        <xsd:attribute name="Value" type="xsd:string"/>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Value" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfigurations">
         <xsd:sequence>
