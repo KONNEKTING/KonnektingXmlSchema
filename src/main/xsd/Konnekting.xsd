@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+
+ Copyright (C) 2015 Alexander Christian <info(at)karduino.de>. All rights reserved.
+ 
+ This file is part of KARDUINO.
+
+ KARDUINO is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ KARDUINO is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with slicKnx.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified" targetNamespace="http://xml.konnekting.de/schema/KONNEKTING" xmlns:tns="http://xml.konnekting.de/schema/KONNEKTING">
+    <xsd:element name="KONNEKTING">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Device" type="tns:Device"></xsd:element>
+                <xsd:element name="Configuration" type="tns:Configuration"/>
+            </xsd:sequence>
+            <xsd:attribute name="version" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="CommObject">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string"/>
+            <xsd:element name="Function" type="xsd:string"/>
+            <xsd:element name="DataPoint" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="Device">
+        <xsd:sequence>
+            <xsd:element name="ManufacturerName" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="DeviceName" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="Parameters" type="tns:Parameters"/>
+            <xsd:element name="CommObjects" type="tns:CommObjects"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="tns:DeviceMetaData"/>
+    </xsd:complexType>
+    <xsd:complexType name="Parameter">
+        <xsd:sequence>
+            <xsd:element name="Description" type="xsd:string"/>
+            <xsd:element name="Value" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterGroup">
+        <xsd:sequence>
+            <xsd:element name="Parameter" maxOccurs="unbounded" type="tns:Parameter"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="Configuration">
+        <xsd:sequence>
+            <xsd:element name="IndividualAddress" type="tns:IndividualAddress"></xsd:element>
+            <xsd:element name="CommObjectConfigurations" type="tns:CommObjectConfigurations"/>
+            <xsd:element name="ParameterConfigurations" type="tns:ParameterConfigurations"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="tns:DeviceMetaData"/>
+    </xsd:complexType>
+    <xsd:complexType name="Parameters">
+        <xsd:sequence>
+            <xsd:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Group" type="tns:ParameterGroup" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjects">
+        <xsd:sequence>
+            <xsd:element name="CommObject" maxOccurs="unbounded" type="tns:CommObject"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjectConfigurations">
+        <xsd:sequence>
+            <xsd:element name="CommObjectConfiguration" type="tns:CommObjectConfiguration" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjectConfiguration">
+        <xsd:attribute name="Id" type="xsd:string"/>
+        <xsd:attribute name="GroupAddress" type="xsd:string"/>
+        <xsd:attribute name="Description" type="xsd:string"/>
+        <xsd:attribute name="Flags" type="xsd:byte"/>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterConfiguration">
+        <xsd:attribute name="Id" type="xsd:string"/>
+        <xsd:attribute name="Value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterConfigurations">
+        <xsd:sequence>
+            <xsd:element name="ParameterConfiguration" type="tns:ParameterConfiguration" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="IndividualAddress">
+        <xsd:attribute name="Address" type="xsd:string"/>
+        <xsd:attribute name="Description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:attributeGroup name="DeviceMetaData">
+        <xsd:attribute name="ManufacturerId" type="xsd:short"/>
+        <xsd:attribute name="DeviceId" type="xsd:byte"/>
+        <xsd:attribute name="Revision" type="xsd:byte"/>
+    </xsd:attributeGroup>
+</xsd:schema>
