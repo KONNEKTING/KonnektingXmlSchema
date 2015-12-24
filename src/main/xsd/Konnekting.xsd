@@ -5,12 +5,12 @@
  
  This file is part of KONNEKTING.
 
- KARDUINO is free software: you can redistribute it and/or modify
+ KONNEKTING is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
 
- KARDUINO is distributed in the hope that it will be useful,
+ KONNEKTING is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
@@ -114,4 +114,11 @@
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
     </xsd:attributeGroup>
+<!--    <xsd:simpleType name="ParamTypeEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="uint8"/>
+            <xsd:enumeration value="uint16"></xsd:enumeration>
+            <xsd:enumeration value="uint32"/>
+        </xsd:restriction>
+    </xsd:simpleType>-->
 </xsd:schema>
