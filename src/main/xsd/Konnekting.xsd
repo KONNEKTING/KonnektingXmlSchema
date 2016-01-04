@@ -34,7 +34,7 @@
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string"/>
             <xsd:element name="Function" type="xsd:string"/>
-            <xsd:element name="DataPoint" type="xsd:string"/>
+            <xsd:element name="DataPointType" type="xsd:string"/>
         </xsd:sequence>
         <xsd:attribute name="Id" type="xsd:unsignedByte"/>
     </xsd:complexType>
