@@ -62,5 +62,9 @@ public class KonnektingXmlService {
     public static KONNEKTING readConfiguration(File f) throws JAXBException, SAXException {
         return unmarshal(f.getAbsolutePath(), KONNEKTING.class);
     }
+    
+    public static void writeConfiguration(File f, KONNEKTING konnekt) throws JAXBException, SAXException {
+        marshal(f.getAbsolutePath(), konnekt);
+    }
 
 }
