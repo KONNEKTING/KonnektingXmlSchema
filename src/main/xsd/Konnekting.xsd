@@ -76,7 +76,6 @@
     </xsd:complexType>
     <xsd:complexType name="Parameters">
         <xsd:sequence>
-            <xsd:element name="Parameter" type="tns:Parameter" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Group" type="tns:ParameterGroup" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
