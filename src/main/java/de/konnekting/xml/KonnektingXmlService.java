@@ -1,24 +1,24 @@
 /*
  * Copyright (C) 2015 Alexander Christian <alex(at)root1.de>. All rights reserved.
  * 
- * This file is part of KONNEKTING XML Schema.
+ * This file is part of KonnektingDevice XML Schema.
  *
- *   KONNEKTING XML Schema is free software: you can redistribute it and/or modify
+ *   KonnektingDevice XML Schema is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   KONNEKTING XML Schema is distributed in the hope that it will be useful,
+ *   KonnektingDevice XML Schema is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with KONNEKTING XML Schema.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with KonnektingDevice XML Schema.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.konnekting.xmlschema;
+package de.konnekting.xml;
 
-import de.konnekting.xml.schema.konnekting.KONNEKTING;
+import de.konnekting.xml.konnektingdevice.v0.KonnektingDevice;
 import java.io.File;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -39,7 +39,7 @@ public class KonnektingXmlService {
         throws JAXBException, SAXException {
         // Schema und JAXBContext sind multithreadingsicher ("thread safe"):
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(KonnektingXmlService.class.getResource("/META-INF/xsd/Konnekting.xsd"));
+        Schema schema = schemaFactory.newSchema(KonnektingXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd"));
         JAXBContext jaxbContext = JAXBContext.newInstance(clss.getPackage().getName());
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         unmarshaller.setSchema(schema);
@@ -50,7 +50,7 @@ public class KonnektingXmlService {
     private static void marshal(String xmlDatei, Object jaxbElement)
         throws JAXBException, SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(KonnektingXmlService.class.getResource("/META-INF/xsd/Konnekting.xsd"));
+        Schema schema = schemaFactory.newSchema(KonnektingXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd"));
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setSchema(schema);
@@ -59,11 +59,11 @@ public class KonnektingXmlService {
         marshaller.marshal(jaxbElement, new File(xmlDatei));
     }
 
-    public static KONNEKTING readConfiguration(File f) throws JAXBException, SAXException {
-        return unmarshal(f.getAbsolutePath(), KONNEKTING.class);
+    public static KonnektingDevice readConfiguration(File f) throws JAXBException, SAXException {
+        return unmarshal(f.getAbsolutePath(), KonnektingDevice.class);
     }
     
-    public static void writeConfiguration(File f, KONNEKTING konnekt) throws JAXBException, SAXException {
+    public static void writeConfiguration(File f, KonnektingDevice konnekt) throws JAXBException, SAXException {
         marshal(f.getAbsolutePath(), konnekt);
     }
 
