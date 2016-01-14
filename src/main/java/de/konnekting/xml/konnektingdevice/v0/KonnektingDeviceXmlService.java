@@ -16,7 +16,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with KonnektingDevice XML Schema.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.konnekting.xmlkonnektingdevice.v0;
+package de.konnekting.xml.konnektingdevice.v0;
 
 import de.konnekting.xml.konnektingdevice.v0.KonnektingDevice;
 import java.io.File;

@@ -54,6 +54,8 @@
                     <xsd:attribute name="Type" type="xsd:string"/>
                     <xsd:attribute name="Default" type="xsd:hexBinary" use="required"/>
                     <xsd:attribute name="Options" type="xsd:string"/>
+                    <xsd:attribute name="Min" type="xsd:hexBinary"/>
+                    <xsd:attribute name="Max" type="xsd:hexBinary"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
