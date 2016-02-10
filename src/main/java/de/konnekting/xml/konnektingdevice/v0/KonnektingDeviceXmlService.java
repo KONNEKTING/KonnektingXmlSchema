@@ -39,7 +39,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class KonnektingDeviceXmlService {
     
+    
     private static final URL XSD_KONNEKTINGDEVICE_V0 = KonnektingDeviceXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd");
+    
 
     private static <T> T unmarshal(String xmlDatei, Class<T> clss)
             throws JAXBException, SAXException {
@@ -65,15 +67,15 @@ public class KonnektingDeviceXmlService {
         marshaller.marshal(jaxbElement, new File(xmlDatei));
     }
 
-    public static KonnektingDevice readConfiguration(File f) throws JAXBException, SAXException {
+    public static synchronized KonnektingDevice readConfiguration(File f) throws JAXBException, SAXException {
         return unmarshal(f.getAbsolutePath(), KonnektingDevice.class);
     }
 
-    public static void writeConfiguration(File f, KonnektingDevice konnekt) throws JAXBException, SAXException {
+    public static synchronized void writeConfiguration(File f, KonnektingDevice konnekt) throws JAXBException, SAXException {
         marshal(f.getAbsolutePath(), konnekt);
     }
 
-    public static void validateWrite(KonnektingDevice jaxbElement) throws SAXException, JAXBException {
+    public static synchronized void validateWrite(KonnektingDevice jaxbElement) throws SAXException, JAXBException {
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
