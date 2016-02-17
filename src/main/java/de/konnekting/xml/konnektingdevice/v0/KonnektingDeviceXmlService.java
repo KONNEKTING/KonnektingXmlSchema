@@ -18,16 +18,13 @@
  */
 package de.konnekting.xml.konnektingdevice.v0;
 
-import de.konnekting.xml.konnektingdevice.v0.KonnektingDevice;
 import java.io.File;
-import java.io.StringReader;
 import java.net.URL;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.util.ValidationEventCollector;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
@@ -42,12 +39,25 @@ public class KonnektingDeviceXmlService {
     
     private static final URL XSD_KONNEKTINGDEVICE_V0 = KonnektingDeviceXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd");
     
+    private static SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    private static Schema schema;
+    private static final SAXException schemaException;
+    
+    static {
+        SAXException ex = null;
+        try {
+            schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
+        } catch (SAXException e) {
+            ex = e;
+        } finally {
+            schemaException = ex;
+        }
+         
+    }
 
     private static <T> T unmarshal(String xmlDatei, Class<T> clss)
             throws JAXBException, SAXException {
-        // Schema und JAXBContext sind multithreadingsicher ("thread safe"):
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
+        checkValidSchema();
         JAXBContext jaxbContext = JAXBContext.newInstance(clss.getPackage().getName());
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         unmarshaller.setSchema(schema);
@@ -57,8 +67,7 @@ public class KonnektingDeviceXmlService {
 
     private static void marshal(String xmlDatei, Object jaxbElement)
             throws JAXBException, SAXException {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
+        checkValidSchema();
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setSchema(schema);
@@ -76,10 +85,7 @@ public class KonnektingDeviceXmlService {
     }
 
     public static synchronized void validateWrite(KonnektingDevice jaxbElement) throws SAXException, JAXBException {
-
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
-        
+        checkValidSchema();
         JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setSchema(schema);
@@ -87,6 +93,12 @@ public class KonnektingDeviceXmlService {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.marshal(jaxbElement, new DefaultHandler());
 
+    }
+
+    private static void checkValidSchema() throws JAXBException {
+        if (schema==null || schemaException!=null) {
+            throw new JAXBException("Cannot process due to preceding exception", schemaException);
+        }
     }
 
 }
