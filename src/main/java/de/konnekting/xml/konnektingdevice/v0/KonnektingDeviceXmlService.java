@@ -20,6 +20,9 @@ package de.konnekting.xml.konnektingdevice.v0;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -42,6 +45,10 @@ public class KonnektingDeviceXmlService {
     private static SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     private static Schema schema;
     private static final SAXException schemaException;
+    private static final AtomicInteger i = new AtomicInteger();
+    private static final Map<String,JAXBContext> contextMap = new HashMap<>(); 
+    private static final Map<JAXBContext, Unmarshaller> unmarshallerMap = new HashMap<>(); 
+    private static final Map<JAXBContext, Marshaller> marshallerMap = new HashMap<>(); 
     
     static {
         SAXException ex = null;
@@ -54,12 +61,53 @@ public class KonnektingDeviceXmlService {
         }
          
     }
+    
+    private static JAXBContext getCachedContext(String name) throws JAXBException{
+        System.out.println("getCachedContext "+i.incrementAndGet());
+        if (contextMap.containsKey(name)) {
+            System.out.println("Return cached context: "+name);
+            return contextMap.get(name);
+        } else {
+            System.out.println("Return new context: "+name);
+            JAXBContext jaxbContext = JAXBContext.newInstance(name);
+            contextMap.put(name, jaxbContext);
+            return jaxbContext;
+        }
+    }
+    
+    private static Unmarshaller getCachedUnmarsheller(JAXBContext context) throws JAXBException{
+        System.out.println("getCachedUnmarsheller "+i.incrementAndGet());
+        if (unmarshallerMap.containsKey(context)) {
+            System.out.println("Return cached unmarshaller: "+context.hashCode());
+            return unmarshallerMap.get(context);
+        } else {
+            System.out.println("Return new unmarshaller: "+context.hashCode());
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            unmarshallerMap.put(context, unmarshaller);
+            return unmarshaller;
+        }
+    }
+    
+    private static Marshaller getCachedMarsheller(JAXBContext context) throws JAXBException{
+        System.out.println("getCachedUnmarsheller "+i.incrementAndGet());
+        if (marshallerMap.containsKey(context)) {
+            System.out.println("Return cached unmarshaller: "+context.hashCode());
+            return marshallerMap.get(context);
+        } else {
+            System.out.println("Return new unmarshaller: "+context.hashCode());
+            Marshaller marshaller = context.createMarshaller();
+            marshallerMap.put(context, marshaller);
+            return marshaller;
+        }
+    }
 
     private static <T> T unmarshal(String xmlDatei, Class<T> clss)
             throws JAXBException, SAXException {
         checkValidSchema();
-        JAXBContext jaxbContext = JAXBContext.newInstance(clss.getPackage().getName());
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        //JAXBContext jaxbContext = JAXBContext.newInstance(clss.getPackage().getName());
+        JAXBContext jaxbContext = getCachedContext(clss.getPackage().getName());
+        
+        Unmarshaller unmarshaller = getCachedUnmarsheller(jaxbContext);
         unmarshaller.setSchema(schema);
         return clss.cast(unmarshaller.unmarshal(new File(xmlDatei)));
 
@@ -68,8 +116,11 @@ public class KonnektingDeviceXmlService {
     private static void marshal(String xmlDatei, Object jaxbElement)
             throws JAXBException, SAXException {
         checkValidSchema();
-        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
-        Marshaller marshaller = jaxbContext.createMarshaller();
+//        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
+        JAXBContext jaxbContext = getCachedContext(jaxbElement.getClass().getPackage().getName());
+        Marshaller marshaller = getCachedMarsheller(jaxbContext);
+        
+        
         marshaller.setSchema(schema);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -86,8 +137,8 @@ public class KonnektingDeviceXmlService {
 
     public static synchronized void validateWrite(KonnektingDevice jaxbElement) throws SAXException, JAXBException {
         checkValidSchema();
-        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
-        Marshaller marshaller = jaxbContext.createMarshaller();
+        JAXBContext jaxbContext = getCachedContext(jaxbElement.getClass().getPackage().getName());
+        Marshaller marshaller = getCachedMarsheller(jaxbContext);
         marshaller.setSchema(schema);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
