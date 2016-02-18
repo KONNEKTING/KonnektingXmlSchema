@@ -42,13 +42,11 @@ public class KonnektingDeviceXmlService {
     
     private static final URL XSD_KONNEKTINGDEVICE_V0 = KonnektingDeviceXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd");
     
-    private static SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    private static final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     private static Schema schema;
     private static final SAXException schemaException;
-    private static final AtomicInteger i = new AtomicInteger();
-    private static final Map<String,JAXBContext> contextMap = new HashMap<>(); 
-    private static final Map<JAXBContext, Unmarshaller> unmarshallerMap = new HashMap<>(); 
-    private static final Map<JAXBContext, Marshaller> marshallerMap = new HashMap<>(); 
+    private static final Map<String, Unmarshaller> unmarshallerMap = new HashMap<>(); 
+    private static final Map<String, Marshaller> marshallerMap = new HashMap<>(); 
     
     static {
         SAXException ex = null;
@@ -62,52 +60,30 @@ public class KonnektingDeviceXmlService {
          
     }
     
-    private static JAXBContext getCachedContext(String name) throws JAXBException{
-        System.out.println("getCachedContext "+i.incrementAndGet());
-        if (contextMap.containsKey(name)) {
-            System.out.println("Return cached context: "+name);
-            return contextMap.get(name);
-        } else {
-            System.out.println("Return new context: "+name);
-            JAXBContext jaxbContext = JAXBContext.newInstance(name);
-            contextMap.put(name, jaxbContext);
-            return jaxbContext;
+    private static Unmarshaller getCachedUnmarsheller(String name) throws JAXBException{
+        Unmarshaller unmarshaller = unmarshallerMap.get(name);
+        if (unmarshaller==null) {
+//            System.out.println("Return new unmarshaller: "+name);
+            unmarshaller = JAXBContext.newInstance(name).createUnmarshaller();
+            unmarshallerMap.put(name, unmarshaller);
         }
+        return unmarshaller;
     }
     
-    private static Unmarshaller getCachedUnmarsheller(JAXBContext context) throws JAXBException{
-        System.out.println("getCachedUnmarsheller "+i.incrementAndGet());
-        if (unmarshallerMap.containsKey(context)) {
-            System.out.println("Return cached unmarshaller: "+context.hashCode());
-            return unmarshallerMap.get(context);
-        } else {
-            System.out.println("Return new unmarshaller: "+context.hashCode());
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            unmarshallerMap.put(context, unmarshaller);
-            return unmarshaller;
+    private static Marshaller getCachedMarsheller(String name) throws JAXBException{
+        Marshaller marshaller = marshallerMap.get(name);
+        if (marshaller==null) {
+//            System.out.println("Return new unmarshaller: "+name);
+            marshaller = JAXBContext.newInstance(name).createMarshaller();
+            marshallerMap.put(name, marshaller);
         }
-    }
-    
-    private static Marshaller getCachedMarsheller(JAXBContext context) throws JAXBException{
-        System.out.println("getCachedUnmarsheller "+i.incrementAndGet());
-        if (marshallerMap.containsKey(context)) {
-            System.out.println("Return cached unmarshaller: "+context.hashCode());
-            return marshallerMap.get(context);
-        } else {
-            System.out.println("Return new unmarshaller: "+context.hashCode());
-            Marshaller marshaller = context.createMarshaller();
-            marshallerMap.put(context, marshaller);
-            return marshaller;
-        }
+        return marshaller;
     }
 
     private static <T> T unmarshal(String xmlDatei, Class<T> clss)
             throws JAXBException, SAXException {
         checkValidSchema();
-        //JAXBContext jaxbContext = JAXBContext.newInstance(clss.getPackage().getName());
-        JAXBContext jaxbContext = getCachedContext(clss.getPackage().getName());
-        
-        Unmarshaller unmarshaller = getCachedUnmarsheller(jaxbContext);
+        Unmarshaller unmarshaller = getCachedUnmarsheller(clss.getPackage().getName());
         unmarshaller.setSchema(schema);
         return clss.cast(unmarshaller.unmarshal(new File(xmlDatei)));
 
@@ -116,11 +92,7 @@ public class KonnektingDeviceXmlService {
     private static void marshal(String xmlDatei, Object jaxbElement)
             throws JAXBException, SAXException {
         checkValidSchema();
-//        JAXBContext jaxbContext = JAXBContext.newInstance(jaxbElement.getClass().getPackage().getName());
-        JAXBContext jaxbContext = getCachedContext(jaxbElement.getClass().getPackage().getName());
-        Marshaller marshaller = getCachedMarsheller(jaxbContext);
-        
-        
+        Marshaller marshaller = getCachedMarsheller(jaxbElement.getClass().getPackage().getName());
         marshaller.setSchema(schema);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -137,8 +109,7 @@ public class KonnektingDeviceXmlService {
 
     public static synchronized void validateWrite(KonnektingDevice jaxbElement) throws SAXException, JAXBException {
         checkValidSchema();
-        JAXBContext jaxbContext = getCachedContext(jaxbElement.getClass().getPackage().getName());
-        Marshaller marshaller = getCachedMarsheller(jaxbContext);
+        Marshaller marshaller = getCachedMarsheller(jaxbElement.getClass().getPackage().getName());
         marshaller.setSchema(schema);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
