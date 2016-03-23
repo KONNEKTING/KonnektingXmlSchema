@@ -22,7 +22,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -42,40 +41,40 @@ public class KonnektingDeviceXmlService {
     
     private static final URL XSD_KONNEKTINGDEVICE_V0 = KonnektingDeviceXmlService.class.getResource("/META-INF/xsd/KonnektingDeviceV0.xsd");
     
-    private static final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     private static Schema schema;
-    private static final SAXException schemaException;
-    private static final Map<String, Unmarshaller> unmarshallerMap = new HashMap<>(); 
-    private static final Map<String, Marshaller> marshallerMap = new HashMap<>(); 
+    private static final SAXException SCHEMA_EXCEPTION;
+    private static final Map<String, Unmarshaller> UNMARSHELLER_MAP = new HashMap<>(); 
+    private static final Map<String, Marshaller> MARSHELLER_MAP = new HashMap<>(); 
     
     static {
         SAXException ex = null;
         try {
-            schema = schemaFactory.newSchema(XSD_KONNEKTINGDEVICE_V0);
+            schema = SCHEMA_FACTORY.newSchema(XSD_KONNEKTINGDEVICE_V0);
         } catch (SAXException e) {
             ex = e;
         } finally {
-            schemaException = ex;
+            SCHEMA_EXCEPTION = ex;
         }
          
     }
     
     private static Unmarshaller getCachedUnmarsheller(String name) throws JAXBException{
-        Unmarshaller unmarshaller = unmarshallerMap.get(name);
+        Unmarshaller unmarshaller = UNMARSHELLER_MAP.get(name);
         if (unmarshaller==null) {
 //            System.out.println("Return new unmarshaller: "+name);
             unmarshaller = JAXBContext.newInstance(name).createUnmarshaller();
-            unmarshallerMap.put(name, unmarshaller);
+            UNMARSHELLER_MAP.put(name, unmarshaller);
         }
         return unmarshaller;
     }
     
     private static Marshaller getCachedMarsheller(String name) throws JAXBException{
-        Marshaller marshaller = marshallerMap.get(name);
+        Marshaller marshaller = MARSHELLER_MAP.get(name);
         if (marshaller==null) {
 //            System.out.println("Return new unmarshaller: "+name);
             marshaller = JAXBContext.newInstance(name).createMarshaller();
-            marshallerMap.put(name, marshaller);
+            MARSHELLER_MAP.put(name, marshaller);
         }
         return marshaller;
     }
@@ -118,8 +117,8 @@ public class KonnektingDeviceXmlService {
     }
 
     private static void checkValidSchema() throws JAXBException {
-        if (schema==null || schemaException!=null) {
-            throw new JAXBException("Cannot process due to preceding exception", schemaException);
+        if (schema==null || SCHEMA_EXCEPTION!=null) {
+            throw new JAXBException("Cannot process due to preceding exception", SCHEMA_EXCEPTION);
         }
     }
 
