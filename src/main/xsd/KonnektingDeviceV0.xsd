@@ -114,7 +114,7 @@
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
     </xsd:attributeGroup>
-<!--    <xsd:simpleType name="ParamTypeEnum">
+    <!--    <xsd:simpleType name="ParamTypeEnum">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="uint8"/>
             <xsd:enumeration value="uint16"></xsd:enumeration>
