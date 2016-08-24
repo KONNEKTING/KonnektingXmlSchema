@@ -35,7 +35,8 @@
             <xsd:element name="Function" type="xsd:string"/>
             <xsd:element name="DataPointType" type="xsd:string"/>
         </xsd:sequence>
-        <xsd:attribute name="Id" type="xsd:unsignedByte"/>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="IdName" type="xsd:string"/>
     </xsd:complexType>
     <xsd:complexType name="Device">
         <xsd:sequence>
@@ -51,7 +52,7 @@
             <xsd:element name="Description" type="xsd:string"/>
             <xsd:element name="Value">
                 <xsd:complexType>
-                    <xsd:attribute name="Type" type="xsd:string"/>
+                    <xsd:attribute name="Type" type="xsd:string" use="required"/>
                     <xsd:attribute name="Default" type="xsd:hexBinary" use="required"/>
                     <xsd:attribute name="Options" type="xsd:string"/>
                     <xsd:attribute name="Min" type="xsd:hexBinary"/>
@@ -60,6 +61,7 @@
             </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="IdName" type="xsd:string"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterGroup">
         <xsd:sequence>
