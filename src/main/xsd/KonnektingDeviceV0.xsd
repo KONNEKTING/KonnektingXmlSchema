@@ -34,6 +34,7 @@
             <xsd:element name="Name" type="xsd:string"/>
             <xsd:element name="Function" type="xsd:string"/>
             <xsd:element name="DataPointType" type="xsd:string"/>
+            <xsd:element name="Flags" type="xsd:unsignedByte" default="34"/>
         </xsd:sequence>
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="IdName" type="xsd:string"/>
