@@ -25,6 +25,6 @@ package de.konnekting.xml.konnektingdevice.v0;
  */
 public enum ParameterType {
     
-    UINT8, INT8, UINT16, INT16, UINT32, INT32, RAW1, RAW2, RAW3, RAW4, RAW5, RAW6, RAW7, RAW8, RAW9, RAW10, RAW11;
+    UINT8, INT8, UINT16, INT16, UINT32, INT32, RAW1, RAW2, RAW3, RAW4, RAW5, RAW6, RAW7, RAW8, RAW9, RAW10, RAW11, STRING11;
     
 }
