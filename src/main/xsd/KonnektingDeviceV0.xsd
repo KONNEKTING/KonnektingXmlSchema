@@ -39,12 +39,23 @@
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="IdName" type="xsd:string"/>
     </xsd:complexType>
+    
+    <xsd:complexType name="Dependencies">
+        <xsd:sequence>
+            <xsd:element name="ParameterDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterDependency">
+            </xsd:element>
+            <xsd:element name="CommObjectDependency" minOccurs="0" maxOccurs="unbounded" type="tns:CommObjectDependency">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
     <xsd:complexType name="Device">
         <xsd:sequence>
             <xsd:element name="ManufacturerName" type="xsd:string" minOccurs="0"/>
             <xsd:element name="DeviceName" type="xsd:string" minOccurs="0"/>
             <xsd:element name="Parameters" type="tns:Parameters"/>
             <xsd:element name="CommObjects" type="tns:CommObjects"/>
+            <xsd:element name="Dependencies" type="tns:Dependencies" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attributeGroup ref="tns:DeviceMetaData"/>
     </xsd:complexType>
@@ -112,6 +123,18 @@
         <xsd:attribute name="Address" type="xsd:string"/>
         <xsd:attribute name="Description" type="xsd:string"/>
     </xsd:complexType>
+    <xsd:complexType name="ParameterDependency">
+        <xsd:attribute name="ParamId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="Test" type="tns:TestType"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjectDependency">
+        <xsd:attribute name="CommObjId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="Test" type="tns:TestType"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+    </xsd:complexType>
     <xsd:attributeGroup name="DeviceMetaData">
         <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
@@ -120,8 +143,33 @@
     <!--    <xsd:simpleType name="ParamTypeEnum">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="uint8"/>
-            <xsd:enumeration value="uint16"></xsd:enumeration>
+            <xsd:enumeration value="uint16"/>
             <xsd:enumeration value="uint32"/>
+            <xsd:enumeration value="int8"/>
+            <xsd:enumeration value="int16"/>
+            <xsd:enumeration value="uint32"/>
+            <xsd:enumeration value="raw1"/>
+            <xsd:enumeration value="raw2"/>
+            <xsd:enumeration value="raw3"/>
+            <xsd:enumeration value="raw4"/>
+            <xsd:enumeration value="raw5"/>
+            <xsd:enumeration value="raw6"/>
+            <xsd:enumeration value="raw7"/>
+            <xsd:enumeration value="raw8"/>
+            <xsd:enumeration value="raw9"/>
+            <xsd:enumeration value="raw10"/>
+            <xsd:enumeration value="raw11"/>
+            <xsd:enumeration value="string11"/>
         </xsd:restriction>
     </xsd:simpleType>-->
+    <xsd:simpleType name="TestType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="eq"/>
+            <xsd:enumeration value="ne"/>
+            <xsd:enumeration value="gt"/>
+            <xsd:enumeration value="lt"/>
+            <xsd:enumeration value="ge"/>
+            <xsd:enumeration value="le"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>
