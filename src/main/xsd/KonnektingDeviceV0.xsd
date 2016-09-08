@@ -64,7 +64,7 @@
             <xsd:element name="Description" type="xsd:string"/>
             <xsd:element name="Value">
                 <xsd:complexType>
-                    <xsd:attribute name="Type" type="xsd:string" use="required"/>
+                    <xsd:attribute name="Type" type="tns:ParamType" use="required"/>
                     <xsd:attribute name="Default" type="xsd:hexBinary" use="required"/>
                     <xsd:attribute name="Options" type="xsd:string"/>
                     <xsd:attribute name="Min" type="xsd:hexBinary"/>
@@ -140,14 +140,14 @@
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
     </xsd:attributeGroup>
-    <!--    <xsd:simpleType name="ParamTypeEnum">
+    <xsd:simpleType name="ParamType">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="uint8"/>
             <xsd:enumeration value="uint16"/>
             <xsd:enumeration value="uint32"/>
             <xsd:enumeration value="int8"/>
             <xsd:enumeration value="int16"/>
-            <xsd:enumeration value="uint32"/>
+            <xsd:enumeration value="int32"/>
             <xsd:enumeration value="raw1"/>
             <xsd:enumeration value="raw2"/>
             <xsd:enumeration value="raw3"/>
@@ -161,7 +161,7 @@
             <xsd:enumeration value="raw11"/>
             <xsd:enumeration value="string11"/>
         </xsd:restriction>
-    </xsd:simpleType>-->
+    </xsd:simpleType>
     <xsd:simpleType name="TestType">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="eq"/>
