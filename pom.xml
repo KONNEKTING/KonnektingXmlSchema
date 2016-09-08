@@ -23,6 +23,31 @@
             </resource>
         </resources>
         <plugins>
+            
+            <!-- 
+            include generated jaxb sources. On 2nd build without clean, 
+            jaxb stuff is not automatically added to classpath/compile path, 
+            so we need to add it to be able to compile the not-generated sources
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/target/generated-sources/jaxb/</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <!-- Plugin required to build java classes from XSD using XJC -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
