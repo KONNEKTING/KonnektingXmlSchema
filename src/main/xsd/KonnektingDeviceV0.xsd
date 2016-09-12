@@ -47,30 +47,37 @@
             <xsd:element name="DataPointType" type="xsd:string"/>
             <xsd:element name="Flags" type="xsd:byte" default="52">
                 <xsd:annotation>
-                        <xsd:documentation>ComObj communication flags. 
+                        <xsd:documentation>
+                            <b>ComObj communication flags.</b><br/>
+                            <br/>
+                            The "Flags" is a single byte (integer value), that indicates the set 
+                            communication flags of the ComObj by setting/unsetting single bits of that byte.
+                            <br/>
+                            Flags are:
+                            <pre>
+                            * C   Communication
+                            * R   Read
+                            * W   Write
+                            * T   Transmit
+                            * U   Update
+                            * I   Init
+                            </pre>
+                            (for more details about the flags, read: http://www.knx.org/fileadmin/template/documents/downloads_support_menu/KNX_tutor_seminar_page/Advanced_documentation/02_Flags_E1008a.pdf)
 
-                    The "Flags" is a single byte (integer value), 
-                    that indicates the set communication flags of the ComObj by setting/unsetting single bits of that byte.
+                            <pre>
+                                B7  B6  B5  B4  B3  B2  B1  B0 (Bit number)
+                               128  64  32  16   8   4   2   1 (integer value)
+                                xx  xx   C   R   W   T   U   I (Flag) 
+                            </pre>
 
-                    Flags are:
-                        C   Communication
-                        R   Read
-                        R   Write
-                        T   Transmit
-                        U   Update
-                        I   Init
+                            Bit B6 and B7 are unused.<br/>
 
-                    (for more details about the flags, read: http://www.knx.org/fileadmin/template/documents/downloads_support_menu/KNX_tutor_seminar_page/Advanced_documentation/02_Flags_E1008a.pdf)
-
-                     B7  B6  B5  B4  B3  B2  B1  B0 (Bit number)
-                    128  64  32  16   8   4   2   1 (integer value)
-                     xx  xx   C   R   W   T   U   I (Flag) 
-
-                    Bit B6 and B7 are unused.
-
-                    Common flag-combinations:
-                        * "Sensor Profile" -> C+R+T -> 32+16+8 = 52 (integer value)
-                        * "Logical Input Profile" -> C+W+U -> 32+8+2 = 42 (integer value)</xsd:documentation>
+                                                Common flag-combinations:
+                            <pre>
+                                                    * "Sensor Profile" -> C+R+T -> 32+16+8 = 52 (integer value)
+                                                    * "Logical Input Profile" -> C+W+U -> 32+8+2 = 42 (integer value)
+                            </pre>
+                        </xsd:documentation>
                     </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
