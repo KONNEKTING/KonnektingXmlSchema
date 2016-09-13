@@ -42,11 +42,9 @@
     
     <xsd:complexType name="Dependencies">
         <xsd:sequence>
-            <xsd:element name="ParameterDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterDependency">
-            </xsd:element>
-            <xsd:element name="CommObjectDependency" minOccurs="0" maxOccurs="unbounded" type="tns:CommObjectDependency">
-            </xsd:element>
-            <xsd:element name="ParameterGroupDependency" type="tns:ParameterGroupDependency" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="ParameterDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterDependency"/>
+            <xsd:element name="ParameterGroupDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterGroupDependency"/>
+            <xsd:element name="CommObjectDependency" maxOccurs="unbounded" minOccurs="0" type="tns:CommObjectDependency"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -127,23 +125,22 @@
         <xsd:attribute name="Description" type="xsd:string"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterDependency">
-        <xsd:attribute name="ParamId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="Test" type="tns:TestType"/>
-        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+        <xsd:attribute name="ParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="tns:TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="CommObjectDependency">
-        <xsd:attribute name="CommObjId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="Test" type="tns:TestType"/>
-        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+        <xsd:attribute name="CommObjId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="tns:TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterGroupDependency">
-        <xsd:sequence></xsd:sequence>
-        <xsd:attribute name="ParamGroupId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
-        <xsd:attribute name="Test" type="tns:TestType"/>
-        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+        <xsd:attribute name="ParamGroupId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="tns:TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:attributeGroup name="DeviceMetaData">
         <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
