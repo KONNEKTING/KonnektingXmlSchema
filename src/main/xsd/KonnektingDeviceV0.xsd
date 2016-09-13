@@ -46,6 +46,7 @@
             </xsd:element>
             <xsd:element name="CommObjectDependency" minOccurs="0" maxOccurs="unbounded" type="tns:CommObjectDependency">
             </xsd:element>
+            <xsd:element name="ParameterGroupDependency" type="tns:ParameterGroupDependency" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -133,6 +134,13 @@
     </xsd:complexType>
     <xsd:complexType name="CommObjectDependency">
         <xsd:attribute name="CommObjId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
+        <xsd:attribute name="Test" type="tns:TestType"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterGroupDependency">
+        <xsd:sequence></xsd:sequence>
+        <xsd:attribute name="ParamGroupId" type="xsd:unsignedByte"/>
         <xsd:attribute name="TestParamId" type="xsd:unsignedByte"/>
         <xsd:attribute name="Test" type="tns:TestType"/>
         <xsd:attribute name="TestValue" type="xsd:hexBinary"/>
