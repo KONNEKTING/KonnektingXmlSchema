@@ -109,7 +109,7 @@
         <xsd:attribute name="GroupAddress" type="xsd:string"/>
         <xsd:attribute name="Description" type="xsd:string"/>
         <xsd:attribute name="Flags" type="xsd:byte"/>
-        <xsd:attribute name="active" type="xsd:boolean" use="required"/>
+        <xsd:attribute name="active" type="xsd:boolean" use="required" default="false"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfiguration">
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
