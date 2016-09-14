@@ -33,7 +33,7 @@
         <xsd:sequence>
             <xsd:element name="Name" type="xsd:string"/>
             <xsd:element name="Function" type="xsd:string"/>
-            <xsd:element name="DataPointType" type="xsd:string"/>
+            <xsd:element name="DataPointType" type="tns:DataPointType"/>
             <xsd:element name="Flags" type="xsd:byte" default="52"/>
         </xsd:sequence>
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
@@ -43,8 +43,8 @@
     <xsd:complexType name="Dependencies">
         <xsd:sequence>
             <xsd:element name="ParameterDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterDependency"/>
-            <xsd:element name="ParameterGroupDependency" maxOccurs="unbounded" minOccurs="0" type="tns:ParameterGroupDependency"/>
-            <xsd:element name="CommObjectDependency" maxOccurs="unbounded" minOccurs="0" type="tns:CommObjectDependency"/>
+            <xsd:element name="ParameterGroupDependency" type="tns:ParameterGroupDependency" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="CommObjectDependency" minOccurs="0" maxOccurs="unbounded" type="tns:CommObjectDependency"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -177,6 +177,11 @@
             <xsd:enumeration value="lt"/>
             <xsd:enumeration value="ge"/>
             <xsd:enumeration value="le"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DataPointType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{1,5}.[0-9]{3,5}"/>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
