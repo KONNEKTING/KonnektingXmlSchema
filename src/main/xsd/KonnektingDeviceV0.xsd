@@ -226,8 +226,8 @@
     </xsd:simpleType>
     <xsd:simpleType name="SystemMemoryType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 16 bytes = 24 bytes base64 -->
-            <xsd:maxLength value="24"/>
+            <!-- 12 bytes = 16 bytes base64 -->
+            <xsd:maxLength value="16"/>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
