@@ -203,7 +203,7 @@
     </xsd:simpleType>
     <xsd:simpleType name="IndividualAddressType">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{1,2}\.[0-7]\.[0-9]{1,3}"/>
+            <xsd:pattern value="[0-9]{1,2}\.[0-7]\.[0-9]{0,3}"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="AddressTableType">
