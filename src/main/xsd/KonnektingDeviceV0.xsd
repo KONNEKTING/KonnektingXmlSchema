@@ -16,7 +16,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with slicKnx.  If not, see <http://www.gnu.org/licenses/>.
+ along with KONNEKTING. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -209,25 +209,25 @@
     <xsd:simpleType name="AddressTableType">
         <xsd:restriction base="xsd:base64Binary">
             <!-- 127 entries = 255 bytes = 340 bytes base64 -->
-            <xsd:maxLength value="340"/> 
+            <xsd:maxLength value="1024"/> 
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="AssociationTableType">
         <xsd:restriction base="xsd:base64Binary">
             <!-- 255 entries = 511 bytes = 684 bytes base64 -->
-            <xsd:maxLength value="684"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="CommObjectTableType">
         <xsd:restriction base="xsd:base64Binary">
             <!-- 85 entries = 86 bytes = 116 bytes base64 -->
-            <xsd:maxLength value="116"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="SystemMemoryType">
         <xsd:restriction base="xsd:base64Binary">
             <!-- 12 bytes = 16 bytes base64 -->
-            <xsd:maxLength value="16"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
