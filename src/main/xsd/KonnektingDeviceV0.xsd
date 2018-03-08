@@ -115,7 +115,7 @@
         <xsd:attribute name="Active" type="xsd:boolean" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfiguration">
-        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="Value" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfigurations">
@@ -189,6 +189,10 @@
             <xsd:enumeration value="lt"/>
             <xsd:enumeration value="ge"/>
             <xsd:enumeration value="le"/>
+			<xsd:enumeration value="in"/>
+			<xsd:enumeration value="notin"/>
+			<xsd:enumeration value="between"/>
+			<xsd:enumeration value="notbetween"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="DataPointType">
