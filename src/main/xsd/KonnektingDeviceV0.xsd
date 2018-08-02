@@ -147,7 +147,7 @@
     </xsd:complexType>
     <xsd:complexType name="DeviceMemory">
         <xsd:sequence>
-            <xsd:element name="System" type="tns:SystemMemoryType"/>
+            <xsd:element name="SystemTable" type="tns:SystemTableType"/>
             <xsd:element name="AddressTable" type="tns:AddressTableType"/>
             <xsd:element name="AssociationTable" type="tns:AssociationTableType"/>
             <xsd:element name="CommObjectTable" type="tns:CommObjectTableType"/>
@@ -228,7 +228,7 @@
             <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="SystemMemoryType">
+    <xsd:simpleType name="SystemTableType">
         <xsd:restriction base="xsd:base64Binary">
             <!-- 12 bytes = 16 bytes base64 -->
             <xsd:maxLength value="1024"/>
