@@ -112,7 +112,6 @@
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Description" type="xsd:string"/>
         <xsd:attribute name="Flags" type="xsd:byte" use="required"/>
-        <xsd:attribute name="Active" type="xsd:boolean" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfiguration">
         <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
@@ -158,6 +157,7 @@
         <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="SystemType" type="xsd:unsignedByte" use="required"/>
     </xsd:attributeGroup>
     <xsd:simpleType name="ParamType">
         <xsd:restriction base="xsd:string">
@@ -212,25 +212,21 @@
     </xsd:simpleType>
     <xsd:simpleType name="AddressTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 127 entries = 255 bytes = 340 bytes base64 -->
             <xsd:maxLength value="1024"/> 
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="AssociationTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 255 entries = 511 bytes = 684 bytes base64 -->
             <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="CommObjectTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 85 entries = 86 bytes = 116 bytes base64 -->
             <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="SystemTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 12 bytes = 16 bytes base64 -->
             <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
