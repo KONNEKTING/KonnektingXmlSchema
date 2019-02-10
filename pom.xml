@@ -24,7 +24,22 @@
                 </includes>
             </resource>
         </resources>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             
             <!-- 
             include generated jaxb sources. On 2nd build without clean, 
@@ -34,7 +49,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -66,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-xjc-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.3</version>
                 <configuration>
                     <extensions>
                         <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.3.0</extension>
@@ -98,19 +113,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.source}</target>
-                    <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>java.activation</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-             
+            
         </plugins>
     </build>
     
@@ -126,7 +129,6 @@
             <artifactId>javax.activation</artifactId>
             <version>1.2.0</version>
         </dependency>
-
     </dependencies>
     
     <!-- upload informations for deploying the jar -->
