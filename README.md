@@ -1,2 +1,3 @@
 # KONNEKTING XML Schema
+
 XSDs for KONNEKTING
