@@ -14,7 +14,6 @@
     
     <name>KONNEKTING XML Schema ${project.version}</name>
     <build>
-        <sourceDirectory>src/main/java, target/generated-sources/jaxb/</sourceDirectory>
         <resources>
             <resource>
                 <targetPath>META-INF/xsd</targetPath>
