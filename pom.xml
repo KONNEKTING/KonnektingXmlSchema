@@ -131,17 +131,24 @@
         </dependency>
     </dependencies>
     
-    <!-- upload informations for deploying the jar -->
-    <distributionManagement>
+    <repositories>      
         <repository>
             <id>root1-releases</id>
-            <name>internal releases</name>
-            <url>http://maven.root1.de/repository/releases/</url>
+            <name>root1.de Releases Repository</name>
+            <layout>default</layout>
+            <url>http://maven.root1.de/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
-        <snapshotRepository>
+        <repository>
             <id>root1-snapshots</id>
-            <name>internal snapshots</name>
-            <url>http://maven.root1.de/repository/snapshots/</url>
-        </snapshotRepository>      
-    </distributionManagement>      
+            <name>root1.de Snapshots Repository</name>
+            <layout>default</layout>
+            <url>http://maven.root1.de/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>    
+    </repositories>  
 </project>
