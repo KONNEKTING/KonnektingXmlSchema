@@ -5,11 +5,13 @@
     <artifactId>konnekting-xml-schema</artifactId>
     <version>1.0.0-BETA5-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-    </properties>
+    
+    <parent>
+        <groupId>de.konnekting</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    
     <name>KONNEKTING XML Schema ${project.version}</name>
     <build>
         <resources>
@@ -22,7 +24,22 @@
                 </includes>
             </resource>
         </resources>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             
             <!-- 
             include generated jaxb sources. On 2nd build without clean, 
@@ -32,7 +49,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.12</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -49,7 +66,7 @@
             </plugin>
             
             <!-- Plugin required to build java classes from XSD using XJC -->
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>2.2</version>
@@ -60,34 +77,78 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>-->
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-xjc-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <extensions>
+                        <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.3.0</extension>
+                    </extensions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xsdtojava</goal>
+                        </goals>
+                        <configuration>
+                            <sourceRoot>${basedir}/target/generated-sources/jaxb</sourceRoot>
+                            <xsdOptions>
+                                <xsdOption>
+                                    <xsd>${basedir}/src/main/xsd/KonnektingDeviceV0.xsd</xsd>
+                                    <packagename>de.konnekting.xml.konnektingdevice.v0</packagename>
+                                </xsdOption>
+                            </xsdOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.activation</groupId>
+                        <artifactId>javax.activation</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
-             
+            
         </plugins>
     </build>
     
-    <repositories>
-        <repository>
-            <id>root1-releases</id>
-            <url>http://maven.root1.de/repository/releases/</url>
-        </repository>
-        <repository>
-            <id>root1-snapshots</id>
-            <url>http://maven.root1.de/repository/snapshots/</url>
-        </repository>
-    </repositories>
-
-    <!-- upload informations for deploying the jar -->
-    <distributionManagement>
-        <repository>
-            <id>root1-releases</id>
-            <name>internal releases</name>
-            <url>http://maven.root1.de/repository/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>root1-snapshots</id>
-            <name>internal snapshots</name>
-            <url>http://maven.root1.de/repository/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <dependencies>
+        <!-- since java9 no longer part of jre/jdk -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+    </dependencies>
     
+    <repositories>      
+        <repository>
+            <id>root1-releases</id>
+            <name>root1.de Releases Repository</name>
+            <layout>default</layout>
+            <url>http://maven.root1.de/repository/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>root1-snapshots</id>
+            <name>root1.de Snapshots Repository</name>
+            <layout>default</layout>
+            <url>http://maven.root1.de/repository/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>    
+    </repositories>  
 </project>

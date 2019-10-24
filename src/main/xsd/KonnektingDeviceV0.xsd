@@ -16,7 +16,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with slicKnx.  If not, see <http://www.gnu.org/licenses/>.
+ along with KONNEKTING. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -71,7 +71,7 @@
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="IdName" type="xsd:string"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterGroup">
@@ -112,10 +112,9 @@
         <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Description" type="xsd:string"/>
         <xsd:attribute name="Flags" type="xsd:byte" use="required"/>
-        <xsd:attribute name="Active" type="xsd:boolean" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfiguration">
-        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="Value" type="xsd:hexBinary" use="required"/>
     </xsd:complexType>
     <xsd:complexType name="ParameterConfigurations">
@@ -147,7 +146,7 @@
     </xsd:complexType>
     <xsd:complexType name="DeviceMemory">
         <xsd:sequence>
-            <xsd:element name="System" type="tns:SystemMemoryType"/>
+            <xsd:element name="SystemTable" type="tns:SystemTableType"/>
             <xsd:element name="AddressTable" type="tns:AddressTableType"/>
             <xsd:element name="AssociationTable" type="tns:AssociationTableType"/>
             <xsd:element name="CommObjectTable" type="tns:CommObjectTableType"/>
@@ -158,6 +157,7 @@
         <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
         <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
         <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="SystemType" type="xsd:unsignedByte" use="required"/>
     </xsd:attributeGroup>
     <xsd:simpleType name="ParamType">
         <xsd:restriction base="xsd:string">
@@ -189,6 +189,10 @@
             <xsd:enumeration value="lt"/>
             <xsd:enumeration value="ge"/>
             <xsd:enumeration value="le"/>
+			<xsd:enumeration value="in"/>
+			<xsd:enumeration value="notin"/>
+			<xsd:enumeration value="between"/>
+			<xsd:enumeration value="notbetween"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="DataPointType">
@@ -203,31 +207,27 @@
     </xsd:simpleType>
     <xsd:simpleType name="IndividualAddressType">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{1,2}\.[0-7]\.[0-9]{1,3}"/>
+            <xsd:pattern value="[0-9]{1,2}\.[0-7]\.[0-9]{0,3}"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="AddressTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 127 entries = 255 bytes = 340 bytes base64 -->
-            <xsd:maxLength value="340"/> 
+            <xsd:maxLength value="1024"/> 
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="AssociationTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 255 entries = 511 bytes = 684 bytes base64 -->
-            <xsd:maxLength value="684"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="CommObjectTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 85 entries = 86 bytes = 116 bytes base64 -->
-            <xsd:maxLength value="116"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="SystemMemoryType">
+    <xsd:simpleType name="SystemTableType">
         <xsd:restriction base="xsd:base64Binary">
-            <!-- 16 bytes = 24 bytes base64 -->
-            <xsd:maxLength value="24"/>
+            <xsd:maxLength value="1024"/>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
