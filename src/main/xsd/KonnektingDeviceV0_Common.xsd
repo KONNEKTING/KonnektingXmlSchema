@@ -1,0 +1,15 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified" 
+            targetNamespace="http://konnekting.de/xml/KonnektingDevice/v0/Common" 
+            xmlns="http://konnekting.de/xml/KonnektingDevice/v0/Common">
+    
+    <xsd:attributeGroup name="DeviceMetaData">
+        <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
+        <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="SystemType" type="xsd:unsignedByte" use="required"/>
+    </xsd:attributeGroup>
+    
+
+    
+</xsd:schema>    
