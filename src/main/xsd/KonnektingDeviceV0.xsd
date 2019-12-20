@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
- Copyright (C) 2015 Alexander Christian <info(at)konnekting.de>. All rights reserved.
+ Copyright (C) 2019 Alexander Christian <info(at)konnekting.de>. All rights reserved.
  
  This file is part of KONNEKTING.
 
@@ -22,20 +22,261 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             elementFormDefault="qualified" 
             targetNamespace="http://konnekting.de/xml/KonnektingDevice/v0" 
-            xmlns="http://konnekting.de/xml/KonnektingDevice/v0"
-            xmlns:device="http://konnekting.de/xml/KonnektingDevice/v0/Device"
-            xmlns:config="http://konnekting.de/xml/KonnektingDevice/v0/Configuration">
-    
-    <xsd:import namespace="http://konnekting.de/xml/KonnektingDevice/v0/Device" schemaLocation="KonnektingDeviceV0_Device.xsd"/>    
-    <xsd:import namespace="http://konnekting.de/xml/KonnektingDevice/v0/Configuration" schemaLocation="KonnektingDeviceV0_Configuration.xsd"/>    
+            xmlns="http://konnekting.de/xml/KonnektingDevice/v0">
 
+    
+    <!-- ############################ -->
+    <!-- # Root Element             # -->
+    <!-- ############################ -->
     <xsd:element name="KonnektingDevice">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="Device" type="device:Device"/>
-                <xsd:element name="Configuration" type="config:Configuration" minOccurs="0"/>
+                <xsd:element name="Device" type="Device"/>
+                <xsd:element name="Configuration" type="Configuration" minOccurs="0"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+
+        
+    <!-- #################################################################################### -->
+    <!-- # common things                                                                    # -->
+    <!-- #################################################################################### -->
     
+    <!-- attributes used by DEVICE and CONFIGURATION -->    
+    <xsd:attributeGroup name="DeviceMetaData">
+        <xsd:attribute name="ManufacturerId" type="xsd:unsignedShort" use="required"/>
+        <xsd:attribute name="DeviceId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Revision" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="SystemType" type="xsd:unsignedByte" use="required"/>
+    </xsd:attributeGroup>
+
+        
+    <!-- #################################################################################### -->
+    <!-- # DEVICE things                                                                    # -->
+    <!-- #################################################################################### -->
+    
+    <!-- simple types -->
+    <xsd:simpleType name="ParamType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="uint8"/>
+            <xsd:enumeration value="uint16"/>
+            <xsd:enumeration value="uint32"/>
+            <xsd:enumeration value="int8"/>
+            <xsd:enumeration value="int16"/>
+            <xsd:enumeration value="int32"/>
+            <xsd:enumeration value="raw1"/>
+            <xsd:enumeration value="raw2"/>
+            <xsd:enumeration value="raw3"/>
+            <xsd:enumeration value="raw4"/>
+            <xsd:enumeration value="raw5"/>
+            <xsd:enumeration value="raw6"/>
+            <xsd:enumeration value="raw7"/>
+            <xsd:enumeration value="raw8"/>
+            <xsd:enumeration value="raw9"/>
+            <xsd:enumeration value="raw10"/>
+            <xsd:enumeration value="raw11"/>
+            <xsd:enumeration value="string11"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TestType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="eq"/>
+            <xsd:enumeration value="ne"/>
+            <xsd:enumeration value="gt"/>
+            <xsd:enumeration value="lt"/>
+            <xsd:enumeration value="ge"/>
+            <xsd:enumeration value="le"/>
+            <!-- ______________________________ -->
+            <!-- new since beta5: -->
+            <xsd:enumeration value="in"/> 
+            <xsd:enumeration value="notin"/>
+            <xsd:enumeration value="between"/>
+            <xsd:enumeration value="notbetween"/>
+            <!-- ______________________________ -->
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- complex types -->
+    <xsd:complexType name="Device">
+        <xsd:sequence>
+            <xsd:element name="ManufacturerName" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="DeviceName" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="Parameters" type="Parameters"/>
+            <xsd:element name="CommObjects" type="CommObjects"/>
+            <xsd:element name="Dependencies" type="Dependencies" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="DeviceMetaData"/>
+    </xsd:complexType>   
+    <xsd:complexType name="Parameters">
+        <xsd:sequence>
+            <xsd:element name="ParameterGroup" type="ParameterGroup" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterGroup">
+        
+        
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="ParameterSpacer" type="xsd:string" />
+            <xsd:element name="Parameter" type="Parameter"/>
+        </xsd:choice>
+        <xsd:attribute name="Name" type="xsd:string" use="required"/>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+    </xsd:complexType>
+    <!--    <xsd:complexType name="ParameterSpacer">
+        <xsd:element name="title" type="xsd:string" />
+    </xsd:complexType>-->
+    <xsd:complexType name="Parameter">
+        <xsd:sequence>
+            <xsd:element name="Description" type="xsd:string"/>
+            <xsd:element name="Value">
+                <xsd:complexType>
+                    <xsd:attribute name="Type" type="ParamType" use="required"/>
+                    <xsd:attribute name="Default" type="xsd:hexBinary" use="required"/>
+                    <xsd:attribute name="Options" type="xsd:string"/>
+                    <xsd:attribute name="Min" type="xsd:hexBinary"/>
+                    <xsd:attribute name="Max" type="xsd:hexBinary"/>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
+        <xsd:attribute name="IdName" type="xsd:string"/>
+    </xsd:complexType>
+    
+
+    <xsd:complexType name="CommObjects">
+        <xsd:sequence>
+            <xsd:element name="CommObject" maxOccurs="unbounded" type="CommObject"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CommObject">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string"/>
+            <xsd:element name="Function" type="xsd:string"/>
+            <xsd:element name="DataPointType" type="DataPointType"/>
+            <xsd:element name="Flags" type="xsd:byte" default="52"/>
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="IdName" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:simpleType name="DataPointType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{1,5}.[0-9]{3,5}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    
+    <xsd:complexType name="Dependencies">
+        <xsd:sequence>
+            <xsd:element name="ParameterDependency" maxOccurs="unbounded" minOccurs="0" type="ParameterDependency"/>
+            <xsd:element name="ParameterGroupDependency" type="ParameterGroupDependency" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="CommObjectDependency" minOccurs="0" maxOccurs="unbounded" type="CommObjectDependency"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ParameterDependency">
+        <xsd:attribute name="ParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="ParameterGroupDependency">
+        <xsd:attribute name="ParamGroupId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjectDependency">
+        <xsd:attribute name="CommObjId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="TestParamId" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Test" type="TestType" use="required"/>
+        <xsd:attribute name="TestValue" type="xsd:hexBinary" use="required"/>
+    </xsd:complexType>
+    
+    
+    
+    
+    
+    <!-- #################################################################################### -->
+    <!-- # CONFIGURATION things                                                             # -->
+    <!-- #################################################################################### -->
+    
+    <!-- simple types -->
+    <xsd:simpleType name="GroupAddressType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{1,2}\/[0-7]\/[0-9]{1,3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="IndividualAddressType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{1,2}\.[0-7]\.[0-9]{0,3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- complex types -->
+    <xsd:complexType name="Configuration">
+        <xsd:sequence>
+            <xsd:element name="IndividualAddress" type="IndividualAddress" minOccurs="0"/>
+            <xsd:element name="CommObjectConfigurations" type="CommObjectConfigurations" minOccurs="0"/>
+            <xsd:element name="ParameterConfigurations" type="ParameterConfigurations" minOccurs="0"/>
+            <xsd:element name="DeviceMemory" type="DeviceMemory" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attributeGroup ref="DeviceMetaData"/>
+    </xsd:complexType>
+    <xsd:complexType name="IndividualAddress">
+        <xsd:attribute name="Address" type="IndividualAddressType"/>
+        <xsd:attribute name="Description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="CommObjectConfigurations">
+        <xsd:sequence>
+            <xsd:element name="CommObjectConfiguration" type="CommObjectConfiguration" maxOccurs="255"/>
+        </xsd:sequence>
+    </xsd:complexType> 
+    <xsd:complexType name="CommObjectConfiguration">
+        <xsd:sequence>
+            <xsd:element name="GroupAddress" maxOccurs="16" minOccurs="0" type="GroupAddressType"/>
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:unsignedByte" use="required"/>
+        <xsd:attribute name="Description" type="xsd:string"/>
+        <xsd:attribute name="Flags" type="xsd:byte" use="required"/>
+    </xsd:complexType>
+          
+    <xsd:complexType name="ParameterConfigurations">
+        <xsd:sequence>
+            <xsd:element name="ParameterConfiguration" type="ParameterConfiguration" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>   
+    <xsd:complexType name="ParameterConfiguration">
+        <xsd:attribute name="Id" type="xsd:unsignedShort" use="required"/>
+        <xsd:attribute name="Value" type="xsd:hexBinary" use="required"/>
+    </xsd:complexType> 
+    <xsd:complexType name="DeviceMemory">
+        <xsd:sequence>
+            <xsd:element name="SystemTable" type="SystemTableType"/>
+            <xsd:element name="AddressTable" type="AddressTableType"/>
+            <xsd:element name="AssociationTable" type="AssociationTableType"/>
+            <xsd:element name="CommObjectTable" type="CommObjectTableType"/>
+            <xsd:element name="ParameterTable" type="xsd:base64Binary"/>
+        </xsd:sequence>
+    </xsd:complexType>    
+    <xsd:simpleType name="SystemTableType">
+        <xsd:restriction base="xsd:base64Binary">
+            <xsd:maxLength value="1024"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="AddressTableType">
+        <xsd:restriction base="xsd:base64Binary">
+            <xsd:maxLength value="1024"/> 
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="AssociationTableType">
+        <xsd:restriction base="xsd:base64Binary">
+            <xsd:maxLength value="1024"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="CommObjectTableType">
+        <xsd:restriction base="xsd:base64Binary">
+            <xsd:maxLength value="1024"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 </xsd:schema>
