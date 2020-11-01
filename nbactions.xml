@@ -8,4 +8,12 @@
                 <goal>generate-sources</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-clean &amp; deploy</actionName>
+            <displayName>clean &amp; deploy</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+            </goals>
+        </action>
     </actions>
