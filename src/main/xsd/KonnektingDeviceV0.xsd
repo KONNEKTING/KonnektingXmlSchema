@@ -60,7 +60,7 @@
     <xs:complexType name="ParameterBase">        
     </xs:complexType>
     
-    <!-- a space with a text value. Used to get a better overview in f.i parameter lists -->
+    <!-- a spacer with a text value. Used to get a better overview in f.i parameter lists -->
     <xs:complexType name="ParameterSpacer">
         <xs:complexContent>
             <xs:extension base="ParameterBase">
