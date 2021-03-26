@@ -202,21 +202,22 @@
         <xs:attribute name="TestParamId" type="xs:unsignedByte" use="required"/>
         <xs:attribute name="Test" type="TestType" use="required"/>
         <xs:attribute name="TestValue" type="xs:hexBinary" use="required"/>
+        <xs:attribute name="TestList" type="xs:string" use="required"/>
     </xs:complexType>
     <xs:complexType name="ParameterGroupDependency">
         <xs:attribute name="ParamGroupId" type="xs:unsignedByte" use="required"/>
         <xs:attribute name="TestParamId" type="xs:unsignedByte" use="required"/>
         <xs:attribute name="Test" type="TestType" use="required"/>
         <xs:attribute name="TestValue" type="xs:hexBinary" use="required"/>
+        <xs:attribute name="TestList" type="xs:string" use="required"/>
     </xs:complexType>
     <xs:complexType name="CommObjectDependency">
         <xs:attribute name="CommObjId" type="xs:unsignedByte" use="required"/>
         <xs:attribute name="TestParamId" type="xs:unsignedByte" use="required"/>
         <xs:attribute name="Test" type="TestType" use="required"/>
         <xs:attribute name="TestValue" type="xs:hexBinary" use="required"/>
+        <xs:attribute name="TestList" type="xs:string" use="required"/>
     </xs:complexType>
-    
-    
     
     
     
